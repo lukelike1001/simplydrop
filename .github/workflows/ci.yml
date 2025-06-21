@@ -24,6 +24,7 @@ jobs:
         run: flake8 backend/ tests/
 
   unit-testing:
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -46,6 +47,7 @@ jobs:
           coverage
   
   build-and-push:
+    needs: [lint, unit-testing]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -71,6 +73,7 @@ jobs:
         run: docker push ghcr.io/${{ github.repository }}:latest
   
   type-checking:
+    needs: [lint, unit-testing, build-and-push]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -89,6 +92,7 @@ jobs:
         run: mypy backend/
 
   security-scan:
+    needs: [lint, unit-testing, build-and-push, type-checking]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
