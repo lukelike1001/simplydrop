@@ -3,3 +3,4 @@ uvicorn==0.29.0
 cryptography==42.0.5
 flake8==7.0.0
 pytest==8.2.1
+coverage==7.4.4
