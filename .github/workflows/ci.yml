@@ -34,3 +34,9 @@ jobs:
 
       - name: Push Docker image
         run: docker push ghcr.io/${{ github.repository }}:latest
+      
+      - name: Run unit tests with coverage
+        run: |
+          coverage run -m pytest
+          coverage report --fail-under=75
+          coverage xml
